@@ -1,5 +1,10 @@
 # 🤖 gobot
 
+## Install using helm
+
+```bash 
+helm install gobot ./helm --set secret.value="<TELE_TOKEN>"
+```
 
 ## Build project 
 
