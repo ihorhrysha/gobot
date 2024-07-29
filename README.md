@@ -2,9 +2,14 @@
 
 ## Install using helm
 
+from local directory:
 ```bash 
 helm install gobot ./helm --set secret.value="<TELE_TOKEN>"
 ```
+
+or from release:
+```bash
+helm install gobot https://github.com/ihorhrysha/gobot/releases/download/0.0.3/gobot-0.1.1.tgz --set secret.value="<TELE_TOKEN>"
 
 ## Build project 
 
