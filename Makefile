@@ -14,6 +14,10 @@ IMAGE_TAG = ${REGISTRY}/${APP}:${TAG}
 e:
 	@echo ${IMAGE_TAG}
 	@echo ${APP}
+	@echo ${VERSION}
+	@echo ${GIT_TAG}
+	@echo ${GIT_REVISION}
+	@echo ${REGISTRY}
 
 # local development
 format:
@@ -51,4 +55,4 @@ clean:
 	rm -rf gobot || true
 	docker rmi ${IMAGE_TAG} || true
 
-release: image push clean
+release: e image push clean
