@@ -1,14 +1,15 @@
-APP := $(shell basename $(shell git remote get-url origin) .git)
+# APP := $(shell basename $(shell git remote get-url origin) .git)
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 
 # Defaults
-REGISTRY = ihorhrysha
+REGISTRY = docker.io
+REPOSITORY = ihorhrysha/gobot
 #	linux darwin windows
 TARGETOS=linux
 #	amd64 arm64
 TARGETARCH=amd64
 
-IMAGE_TAG = ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}-${TARGETOS}
+IMAGE_TAG = ${REGISTRY}/${REPOSITORY}:${VERSION}-${TARGETARCH}-${TARGETOS}
 
 version:
 	@echo ${VERSION}
