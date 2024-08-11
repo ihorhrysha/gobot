@@ -50,4 +50,4 @@ clean:
 	rm -rf gobot || true
 	docker rmi ${IMAGE_TAG} || true
 
-release: e image push clean
+release: image push clean
