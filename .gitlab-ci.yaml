@@ -1,0 +1,39 @@
+stages:
+  - test
+  - build
+  - push
+
+variables:
+  TARGETARCH: "amd64"
+  TARGETOS: "linux"
+  REGISTRY: "registry.gitlab.com"
+  REPOSITORY: "${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
+
+test:
+  stage: test
+  image: golang:latest
+  script:
+    - echo "Running tests"
+    - go test ./...
+
+build:
+  stage: build
+  image: golang:latest
+  script:
+    - echo "Building the application"
+    - go build -o gobot
+  artifacts:
+    paths:
+      - gobot
+
+push:
+  stage: push
+  script:
+    - echo "Logging into GitLab Container Registry"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - echo "Building Docker image"
+    - docker build -t $REGISTRY/$REPOSITORY:latest .
+    - echo "Pushing Docker image to GitLab Container Registry"
+    - docker push $REGISTRY/$REPOSITORY:latest
+  only:
+    - master
