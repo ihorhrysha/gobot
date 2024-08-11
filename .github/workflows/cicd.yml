@@ -1,5 +1,10 @@
 name: GOBOT-CICD
 
+env:
+  TARGETARCH: amd64
+  TARGETOS: linux
+  REGISTRY: ghcr.io/${{ github.actor }}
+
 on:
   push:
     branches:
@@ -11,6 +16,7 @@ permissions:
 
 jobs:
   ci:
+    name: CI
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +32,33 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: release
-        run: make release REGISTRY="ghcr.io/ihorhrysha"
+        run: make release REGISTRY=$REGISTRY TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS
 
       - name: Clean
-        run: make clean REGISTRY="ghcr.io/ihorhrysha"
+        run: make clean REGISTRY=$REGISTRY TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS
+
+  cd:
+    name: CD
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - run: echo "VERSION=$(make version)" >> $GITHUB_ENV
+
+    - uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH)| .image.os=strenv(TARGETOS)' helm/values.yaml
+    
+    - uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.appVersion=strenv(VERSION)' helm/Chart.yaml
+
+    - run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -am "update version $VERSION"
+        git push

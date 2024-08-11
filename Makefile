@@ -10,10 +10,7 @@ TARGETARCH=amd64
 
 IMAGE_TAG = ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}-${TARGETOS}
 
-e:
-	@echo ${APP}
-	@echo ${REGISTRY}
-	@echo ${IMAGE_TAG}
+version:
 	@echo ${VERSION}
 	
 
