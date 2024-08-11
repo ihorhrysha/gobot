@@ -1,23 +1,21 @@
 APP := $(shell basename $(shell git remote get-url origin) .git)
-GIT_TAG = $(shell git describe --tags --abbrev=0)
-GIT_REVISION = $(shell git rev-parse --short HEAD)
-VERSION = $(if $(GIT_TAG),$(GIT_TAG),$(GIT_REVISION))
+VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 
 # Defaults
 REGISTRY = ihorhrysha
-TARGETOS=linux #linux darwin windows
-TARGETARCH=amd64 #amd64 arm64
+#	linux darwin windows
+TARGETOS=linux
+#	amd64 arm64
+TARGETARCH=amd64
 
-TAG = ${VERSION}-${TARGETARCH}
-IMAGE_TAG = ${REGISTRY}/${APP}:${TAG}
+IMAGE_TAG = ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}-${TARGETOS}
 
 e:
-	@echo ${IMAGE_TAG}
 	@echo ${APP}
-	@echo ${VERSION}
-	@echo ${GIT_TAG}
-	@echo ${GIT_REVISION}
 	@echo ${REGISTRY}
+	@echo ${IMAGE_TAG}
+	@echo ${VERSION}
+	
 
 # local development
 format:
@@ -33,7 +31,7 @@ get:
 	go get
 
 build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o gobot -ldflags "-X="github.com/ihorhrysha/gobot/cmd.appVersion=${VERSION}
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o gobot -ldflags "-X="github.com/ihorhrysha/gobot/cmd.version=${VERSION}
 
 # compilation for different OS
 linux: build

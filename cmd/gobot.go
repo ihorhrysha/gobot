@@ -37,7 +37,7 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 		bot.Handle(tele.OnText, func(c tele.Context) error {
-			return c.Reply("Hello, " + c.Sender().FirstName + "!" + " I'm a bot!" + "\nYou've asked me: " + c.Text())
+			return c.Reply("Hello, " + c.Sender().FirstName + "!" + " I'm a gobot, v" + version + "!\nYou've asked me: " + c.Text())
 		})
 
 		bot.Start()
