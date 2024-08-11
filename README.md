@@ -45,3 +45,17 @@ Flags:
 
 Use "gobot [command] --help" for more information about a command.
 ```
+
+## Jenkins pipeline
+
+```bash
+k create ns jenkins
+helm repo add jenkinsci https://charts.jenkins.io/
+helm repo update
+helm install jenkins jenkinsci/jenkins -n jenkins
+k port-forward svc/jenkins 8080:8080 -n jenkins
+k exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+```
+
+Install plugin SSH Agent and restart Jenkins
+

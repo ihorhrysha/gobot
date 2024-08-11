@@ -32,7 +32,7 @@ jobs:
       - name: Login to github container registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: release
+      - name: Release
         run: make release REGISTRY=$REGISTRY REPOSITORY=$REPOSITORY TARGETARCH=$TARGETARCH TARGETOS=$TARGETOS
 
       - name: Clean
