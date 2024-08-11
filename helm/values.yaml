@@ -3,38 +3,28 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
 image:
-  repository: ihorhrysha
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.0.1
+  registry: "ghcr.io"
+  repository: "ihorhrysha/gobot"
+  tag: "v1.0.0-76ec8ed"
+  os: linux
   arch: amd64
-
 secret:
   name: gobot
   key: token
   value: ""
   env: TELE_TOKEN
-
 volumes:
-- name: dev-mem
-  hostPath:
-    path: /dev/mem
-    type: ""
-
+  - name: dev-mem
+    hostPath:
+      path: /dev/mem
+      type: ""
 volumeMounts:
-- mountPath: /dev/mem
-  name: dev-mem
-
+  - mountPath: /dev/mem
+    name: dev-mem
 autoscaling:
   enabled: false
-
 podAnnotations: {}
-
 imagePullSecrets: {}
-
 securityContext: {}
-
 podSecurityContext: {}
-
-
