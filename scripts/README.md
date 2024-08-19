@@ -20,3 +20,11 @@ Install
 ```bash
 curl https://raw.githubusercontent.com/ihorhrysha/gobot/master/scripts/init-pre-commit | sh
 ```
+
+
+## Example output on commit
+```bash
+Detect hardcoded secrets.................................................Passed
+[master b61387e] curl pipe sh
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ ```
