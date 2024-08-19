@@ -1,6 +1,6 @@
 ## Bash script
 
-Copy the script to hooks derictory in your project and make it executable.
+Copy the script to the git hooks directory in your project and make it executable.
 
 ```bash
 cp ./scripts/pre-commit .git/hooks/pre-commit
@@ -18,5 +18,5 @@ git config hooks.gitleaks true
 
 Install 
 ```bash
-pre-commit install
+curl https://raw.githubusercontent.com/ihorhrysha/gobot/master/scripts/init-pre-commit | sh
 ```
