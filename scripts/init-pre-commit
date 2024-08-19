@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# # Check if the pre-commit hook is enabled
+# HOOK_ENABLED=$(git config --bool hooks.gitleaks)
+# if [ "$HOOK_ENABLED" != "true" ]; then
+#   echo "Pre-commit hook for gitleaks is disabled. Enable it with:"
+#   echo "git config hooks.gitleaks true"
+#   exit 0
+# fi
+
+# Function to install gitleaks
+install_precommit() {
+  # Check if Python is installed
+  if command -v python &>/dev/null || command -v python3 &>/dev/null; then
+      # Install pre-commit using pip
+      pip install pre-commit || pip3 install pre-commit
+  else
+      # Print error message and exit
+      echo "Error: Python is not installed. Please install Python to proceed."
+      exit 1
+  fi
+}
+
+# Check if precommit is installed, if not, install it 
+if ! command -v pre-commit &> /dev/null; then
+  install_precommit
+fi
+
+# Install pre-commit hooks
+pre-commit install
+
+exit 0
